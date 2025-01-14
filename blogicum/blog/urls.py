@@ -16,12 +16,12 @@ posts = [
     path(
         '<int:post_id>/edit_comment/<int:comment_id>/',
         views.edit_comment,
-        name='edit_comment',
+        name='edit_comment'
     ),
     path(
         '<int:post_id>/delete_comment/<int:comment_id>/',
         views.delete_comment,
-        name='delete_comment',
+        name='delete_comment'
     ),
 ]
 
@@ -35,8 +35,11 @@ urlpatterns = [
     # Index
     path('', views.index, name='index'),
     # Category
-    path('category/<slug:category_slug>/',
-         views.category_posts, name='category_posts'),
+    path(
+        'category/<slug:category_slug>/',
+        views.category_posts,
+        name='category_posts'
+    ),
     path('posts/', include(posts)),
     path('profile/', include(profile)),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

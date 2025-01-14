@@ -7,7 +7,7 @@ User = get_user_model()
 
 
 class Location(PublishedModel):
-    """Местоположение."""
+    """Местоположение"""
 
     name = models.CharField(
         max_length=256,
@@ -24,7 +24,7 @@ class Location(PublishedModel):
 
 
 class Category(PublishedModel):
-    """Категория."""
+    """Категория"""
 
     title = models.CharField(
         max_length=256,
@@ -49,7 +49,7 @@ class Category(PublishedModel):
 
 
 class Post(PublishedModel):
-    """Публикация."""
+    """Публикация"""
 
     title = models.CharField(
         max_length=256,
@@ -99,7 +99,7 @@ class Post(PublishedModel):
 
 
 class Comment(PublishedModel):
-    """Комментарий."""
+    """Комментарий"""
 
     text = models.TextField(verbose_name='Текст')
     author = models.ForeignKey(

@@ -9,7 +9,7 @@ from .forms import PostForm, ProfileEditForm, CommentForm
 
 
 def get_posts(post_objects):
-    """Посты из БД."""
+    """Посты из базы данных"""
     return post_objects.filter(
         pub_date__lte=timezone.now(),
         is_published=True,
@@ -18,14 +18,14 @@ def get_posts(post_objects):
 
 
 def get_paginator(request, items, num=10):
-    """Создает объект пагинации."""
+    """Создание объекта пагинации"""
     paginator = Paginator(items, num)
     num_pages = request.GET.get('page')
     return paginator.get_page(num_pages)
 
 
 def index(request):
-    """Главная страница."""
+    """Главная страница"""
     template = 'blog/index.html'
     post_list = get_posts(Post.objects).order_by('-pub_date')
     page_obj = get_paginator(request, post_list)
@@ -34,7 +34,7 @@ def index(request):
 
 
 def post_detail(request, post_id):
-    """Полное описание выбранной записи."""
+    """Полное описание выбранного поста"""
     template = 'blog/detail.html'
     posts = get_object_or_404(Post, id=post_id)
     if request.user != posts.author:
@@ -46,7 +46,7 @@ def post_detail(request, post_id):
 
 
 def category_posts(request, category_slug):
-    """Публикация категории."""
+    """Публикация категории"""
     template = 'blog/category.html'
     category = get_object_or_404(
         Category, slug=category_slug, is_published=True)
@@ -58,7 +58,7 @@ def category_posts(request, category_slug):
 
 @login_required
 def create_post(request):
-    """Создает новую запись."""
+    """Создание новой записи"""
     template = 'blog/create.html'
     if request.method == 'POST':
         form = PostForm(request.POST or None, files=request.FILES or None)
@@ -74,7 +74,7 @@ def create_post(request):
 
 
 def profile(request, username):
-    """Возвращает профиль пользователя."""
+    """Возвращает профиль пользователя"""
     template = 'blog/profile.html'
     user = get_object_or_404(User, username=username)
     posts_list = (
@@ -89,7 +89,7 @@ def profile(request, username):
 
 @login_required
 def edit_profile(request):
-    """Редактирует профиль пользователя."""
+    """Редактирует профиль пользователя"""
     template = 'blog/user.html'
     if request.method == 'POST':
         form = ProfileEditForm(request.POST, instance=request.user)
@@ -104,7 +104,7 @@ def edit_profile(request):
 
 @login_required
 def edit_post(request, post_id):
-    """Редактирует запись блога."""
+    """Редактирует запись блога"""
     template = 'blog/create.html'
     post = get_object_or_404(Post, id=post_id)
     if request.user != post.author:
@@ -123,7 +123,7 @@ def edit_post(request, post_id):
 
 @login_required
 def delete_post(request, post_id):
-    """Удаляет запись блога."""
+    """Удаляет запись блога"""
     template = 'blog/create.html'
     post = get_object_or_404(Post, id=post_id)
     if request.user != post.author:
@@ -140,7 +140,7 @@ def delete_post(request, post_id):
 
 @login_required
 def add_comment(request, post_id):
-    """Добавляет комментарий к записи."""
+    """Добавляет комментарий к посту"""
     post = get_object_or_404(Post, id=post_id)
     form = CommentForm(request.POST or None)
     if form.is_valid():
@@ -153,7 +153,7 @@ def add_comment(request, post_id):
 
 @login_required
 def edit_comment(request, post_id, comment_id):
-    """Редактирует комментарий."""
+    """Редактирует комментарий"""
     template = 'blog/comment.html'
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
@@ -171,7 +171,7 @@ def edit_comment(request, post_id, comment_id):
 
 @login_required
 def delete_comment(request, post_id, comment_id):
-    """Удаляет комментарий."""
+    """Удаляет комментарий"""
     template = 'blog/comment.html'
     comment = get_object_or_404(Comment, id=comment_id)
     if request.user != comment.author:
